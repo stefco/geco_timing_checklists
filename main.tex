@@ -153,9 +153,16 @@ Check local MEDM viewers (i.e. the MEDM viewers installed on the workstations on
 
 \section{Side Projects}
 
-\subsection{DRMI Locking Acquisition System Work}
+\TODO{\subsection{DRMI Locking Acquisition System Work}}
 
-After a conversation about the current state of the detector, Sheila Dwyer asked Yasmeen, Ana, Madox, and Emily to look into the DRMI (Dual-Recycling Michelson Interferometer) locking acquisition system. The DRMI is the LIGO instrument without the 4km arms. Many changes to the DRMI locking process have been made recently, yet the success of said alterations had not been objectively delved into. Specifically, within the \texttt{"H1:GRD-ISC\_LOCK\_STATE\_N"} channel we examined both the time durations during the "Lock DRMI 1F" state (denoted by 101) and the success rate of DRMI locks. Trends in the DRMI locking system duration and success rate were cross checked with the aLIGO LHO Logbook. Furthermore, Sheila asked if we could put a summarizing plot on the detchar pages.   
+After a conversation about the current state of the detector, Sheila Dwyer asked Yasmeen, Ana, Madox, and Emily to look into the DRMI (Dual-Recycling Michelson Interferometer) locking acquisition system. The DRMI is the LIGO instrument without the 4km arms. Many changes to the DRMI locking process have been made recently, yet the success of said alterations had not been objectively delved into. Specifically, within the \texttt{"H1:GRD-ISC\_LOCK\_STATE\_N"} channel we examined both the time durations during the "Lock DRMI 1F" state (denoted by 101) and the success rate of DRMI locks. Trends in the DRMI locking system duration and success rate were cross checked with the aLIGO LHO Logbook. Furthermore, Sheila asked if we could put a summarizing plot on the detchar pages (like \href{https://ldas-jobs.ligo.caltech.edu/~detchar/summary/day/20190111/psl/}{this one}). Generating DetChar summary pages requires creating special \texttt{.ini} configuration files specifying the channels and plot types to be made as well as the location of those plots in the overall summary page structure.
+
+To Do Items:
+
+\begin{itemize}
+    \item \TODO{We will probably need to define a new plot type in the GWpy codebase for this application (since the \texttt{.ini} files must reference an existing GWpy plot type).}
+    \item \TODO{We will also need to get Alex Urban or someone to make it possible to have plots with weeks or months of data (vs. the current timespan of a day) since this is the span on which useful conclusions about locking behavior can be gleaned. Sheila already sent an email to Alex on this topic (Appendix~\ref{sec:summary-page-email}.}
+\end{itemize}
 \href{https://dcc.ligo.org/LIGO-G1301236}{This slideshow} describes DRMI locking.
 
 \TODO{\subsection{Checking for Side-Channel Injections in PCALX Frontend}
@@ -311,6 +318,7 @@ def make_plot(x_axis, y_axis, location):
  
 make_plot(dat.times.to("s").value, dat.value, "LLO")
 \end{lstlisting}
+
 \clearpage
 \section{CNS II Firmware Email}
 \label{sec:cnsiiemail}
@@ -396,6 +404,44 @@ Tue Jul 31 00:00:05 2018
 Tue Jul 31 00:00:06 2018
 Tue Jul 31 00:00:07 2018
 \end{lstlisting}
+
+\clearpage
+\section{DetChar Summary Page Email from Sheila}
+\label{sec:summary-page-email}
+\lstset{language=}
+\begin{lstlisting}
+From: "Dwyer, Sheila E." <sdwyer@caltech.edu>
+Subject: Re: DRMI Locking Stats summary pages
+Date: January 11, 2019 at 3:26:50 PM PST
+To: Stefan Trklja Countryman <stc2117@columbia.edu>, "sheila.dwyer@ligo.org" <sheila.dwyer@ligo.org>, Ana Lam <al3574@barnard.edu>, Yasmeen Siham Asali <ysa2106@columbia.edu>, Madox Carver McGrae-Menge <mcm2280@columbia.edu>, Emily Calamari <ec3082@barnard.edu>, "alexander.urban@ligo.org" <alexander.urban@ligo.org>
+
+Hi Alex,
+We have a group of students from Columbia (Stef, Ana, Yasmeen, Madox and Emily, who are all cc'd) who have been working on some code that generates a time series of the median DRMI acquisition time each day. It would be useful to get this added to the summary pages, which would make it much easier to evaluate the impact of configuration changes on DRMI acquisition time.
+
+One thing about this that would be different from what is on the summary pages right now is that it would be best to look at it on a longer timescale, for example a monthly page that would update over the month, or a weekly page. I know that this would be a little non-standard for summary pages, but I think that a weekly or monthly page would be useful for other things as well, so the work of settings this up would be useful for other reasons as well. For example the long term summary pages that are generated during a run are things that would be useful to us during commissioning time, and I think that a weekly or longer term hveto page would be very useful.
+
+What do you think about making a longer term (weekly or monthly) summary page?
+
+Best, thank you,
+Sheila
+
+From: Stefan Trklja Countryman <stc2117@columbia.edu>
+Sent: Friday, January 11, 2019 2:51:06 PM
+To: sheila.dwyer@ligo.org; Ana Lam; Yasmeen Siham Asali; Madox Carver McGrae-Menge; Emily Calamari
+Subject: DRMI Locking Stats summary pages
+
+> Hi Sheila,
+> 
+> I've CCed Ana, Yasmeen, Madox, and Emily.
+> 
+> Like I said, it's probably a question for Alex Urban how we would fold these plots into the summary pages. From your description of the plot types you want, it sounds like we'd need to make a new plot type for the summary pages. We would also need to add the option to make month-long summary pages for certain plots; Alex will of course know roughly how hard that would be.
+> 
+> Thanks for coordinating with us!
+> 
+> Best,
+> Stef
+\end{lstlisting}
+
 \clearpage
 \section{Cs-III Calibration Email}
 \label{sec:cesiumemail}
@@ -436,6 +482,7 @@ O3.
 Best,
 Stef
 \end{lstlisting}
+
 \clearpage
 \section{Midnight Bug Check}
 \label{sec:midnightbug}
@@ -494,41 +541,41 @@ Tue Jul 31 00:00:07 2018
 %    ! - Over-ride default LaTeX figure placement (do not use the parameter values)
 \begin{figure}[!htb]
 	\begin{center}
-		\includegraphics[width=0.8\linewidth]{rainer-performing-tdr.jpg}
+		\includegraphics[width=0.8\linewidth]{img/rainer-performing-tdr.jpg}
 	\end{center}
 	\caption{Rainer Corley performing a Time Domain Reflectometry (TDR) cable length measurement on the cable running from the Symmetricom auxiliary GPS clock to the Timing Comparator (Aug. 2018).}
 	\label{fig:rainertdr}
 \end{figure}
 \begin{figure}[!htb]
 	\begin{center}
-		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer.jpg}
+		\includegraphics[width=0.8\linewidth]{img/time-domain-reflectrometer.jpg}
 	\end{center}
 	\caption{Device for performing \href{https://en.wikipedia.org/wiki/Time-domain_reflectometer}{Time Domain Reflectrometry} at LHO.}
 	\label{fig:tdr-tool}
 \end{figure}
 \begin{figure}[!htb]
 	\begin{center}
-		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer-dtf-instructions.jpg}
+		\includegraphics[width=0.8\linewidth]{img/time-domain-reflectrometer-dtf-instructions.jpg}
 	\end{center}
 	\caption{Instruction sheet for performing a DTF (Distance to Fault) distance measurement using this Time Domain Reflectrometer at LHO.}
 	\label{fig:tdr-dtf-instructions}
 \end{figure}
 \begin{figure}[!htb]
 	\begin{center}
-		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer-dtf-test.jpg}
+		\includegraphics[width=0.8\linewidth]{img/time-domain-reflectrometer-dtf-test.jpg}
 	\end{center}
 	\caption{Proof of concept setup for measurement of a cable length terminated in a cable terminated by a GPS antenna.}
 	\label{fig:tdr-test}
 \end{figure}
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.8\linewidth]{endstation-antenna-cable.jpeg}
+		\includegraphics[width=0.8\linewidth]{img/endstation-antenna-cable.jpeg}
 	\end{center}
 	\caption{Cartoon by Dave Barker of CNS II GPS cable routing from clock to antenna in end stations. We can ask Dave for a more precise diagram/description if we really care about thse lengths.}
 	\label{fig:routing}
 \end{figure}
 \begin{figure}
-  \includegraphics[width=\linewidth]{cesium-clock.png}
+  \includegraphics[width=\linewidth]{img/cesium-clock.png}
   \caption{Cesium 1PPS clock time difference vs. Timing System over last few months. Differences should resemble a linear trend with deviations on the order of hundreds of nanoseconds; the above result demonstrates a clear failure of the Time Code Generator (TCG) used in aLIGO's timing diagnostic system.}
   \label{fig:cesium}
 \end{figure}
