@@ -59,6 +59,31 @@ We won't be able to take measurements on antenna cables; will need to approximat
 \hyperref[fig:routing]{a cartoon}, but we'll need to bug him for a more precise routing), though this seems like a lot of trouble for an imprecise measurement. aLOG for 1PPS measurements 
 \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=43185}{here}. See Fig. \ref{fig:rainertdr} for a pic of Rainer performing a TDR measurement.
 
+\textbf{Update:} We will do this next Tuesday (maintenance day). We will start at the end stations because, according to Dave, they have their antennae at the edges (while the corner station has its GPS antennae on the weather station, more than 6 feet from the edge, at least at LHO).
+
+\textbf{Update:} Opened \href{https://services.ligo-la.caltech.edu/LHO/workpermits/view.php?permit_id=8044}{work permit 8044} for this work. We will start by measuring the cable lengths at the end stations since this will not require disconnecting anything related to the Timing \textit{Distribution} System.
+
+\textbf{Update:} Filoberto showed Stef how to use a TDR (fig.~\ref{fig:tdr-tool}) to take measurements (Instructions in fig.~\ref{fig:tdr-dtf-instructions}). We tested it in the EE Shop with a 150ft RG-58C/U cable and a GPS antenna (fig.~\ref{fig:tdr-test}) as proof-of-concept; since we can't remove the GPS Antenna at the rooftop end of the cable without getting up to the roof (which requires harness certification), we wanted to check that a DTF (distance to fault) measurement would work with a GPS antenna terminating the cable.
+
+For the distance measurement, we will be using Distance to Fault (DTF) mode, which will require inputting a rough estimate of the distance to the GPS antenna (overestimating is good since this distance specifies the bounds of our distance search; 200ft is probably a good starting point). 
+
+\begin{itemize}
+    \item{\TODO{Get adapters for the GPS antenna cable.}}
+    \item{\TODO{Get the Velocity Factor for whatever cable type is used for the GPS antenna.}} If it's LMR-195 Like at Livingston, then the velocity factor will be \href{https://www.pasternack.com/50-ohm-low-loss-flexible-lmr195-pe-jacket-double-shielded-black-lmr-195-p.aspx}{0.8}.
+    \item{\TODO{Get screwdriver for removing rack-mounted CNS II clock.}}
+    \item{\TODO{Grab the TDR tool}}
+    \item{\TODO{Uninstall CNS II from rack and leave with Dave Barker}}
+    \begin{itemize}
+        \item \TODO{At X End}
+        \item \TODO{At Y End}
+    \end{itemize}
+    \item{\TODO{Perform TDR measurement and record cable type and cable name}}
+    \begin{itemize}
+        \item \TODO{At X End}
+        \item \TODO{At Y End}
+    \end{itemize}
+\end{itemize}
+
 \begin{center}
   \label{table:lho-cables}
   \begin{tabular}{ | l | l | l | l | }
@@ -106,7 +131,7 @@ Use \hyperref[sec:plottingcode]{this plotting code from the appendix} to visuali
 
 \textit{Last time we came to Hanford, we were unable to calibrate the atomic clock because the signal was being processed through a faulty independent commercial timing system we used for our diagnostic system. The failed module, an old \textit{Time Code Generator} (TCG), was producing truly horrible results for the last few months before the visit (as seen in Fig. \ref{fig:cesium}), making it impossible to calibrate the atomic clock (since the Cs-III signal is fed through the TCG). Dave Barker \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=43200}{routed the 1PPS directly from the Cs-III to the comparator} on August 2, 2018, so we should have enough data to calibrate in January 2019.}
 
-\textbf{DO NOT check whether the end station Timing \textit{Diagnostic} System CNS II Clocks were updated} to fix the midnight firmware bug issue. There has been some confusion about whether this needs fixing, but during our last visit, Dave Barker said it is probably not worth updating the CNS II firmware given that we haven't seen any other problems besides the midnight bugs. This issue has been addressed and \textbf{no time should be spent on it}. 
+Ask Dave if the end station Timing \textit{Diagnostic} System CNS II Clocks should be updated to fix the midnight firmware bug issue. There has been some confusion about whether this needs fixing, but during our last visit, Dave Barker said it is probably not worth updating the CNS II firmware given that we haven't seen any other problems besides the midnight bugs. Since then, Dave emailed about it so we should check one more time whether or not it is important. Rick Hambly said it would take 2 weeks to update. 
 
 \TODO{
 \subsection{Check that the Timing System firmware versions are up-to-date using 
@@ -126,9 +151,23 @@ Check local MEDM viewers (i.e. the MEDM viewers installed on the workstations on
 }
 (see Sec.~\ref{subsec:medmviewers}).
 
+\section{Side Projects}
+
+\subsection{DRMI Locking Acquisition System Work}
+
+After a conversation about the current state of the detector, Sheila Dwyer asked Yasmeen, Ana, Madox, and Emily to look into the DRMI (Dual-Recycling Michelson Interferometer) locking acquisition system. The DRMI is the LIGO instrument without the 4km arms. Many changes to the DRMI locking process have been made recently, yet the success of said alterations had not been objectively delved into. Specifically, within the \texttt{"H1:GRD-ISC\_LOCK\_STATE\_N"} channel we examined both the time durations during the "Lock DRMI 1F" state (denoted by 101) and the success rate of DRMI locks. Trends in the DRMI locking system duration and success rate were cross checked with the aLIGO LHO Logbook. Furthermore, Sheila asked if we could put a summarizing plot on the detchar pages.   
+\href{https://dcc.ligo.org/LIGO-G1301236}{This slideshow} describes DRMI locking.
+
+\TODO{\subsection{Checking for Side-Channel Injections in PCALX Frontend}
+}
+
+Keita told us that there are extra injection points in the frontend models for a bunch of channels. These "excitation points" are digital and come before digital filters. The frontends can save data from \textit{before} the excitation point and filter or from \textit{after}; unfortunately, a lot of the data we were recording was only from after the filter, which means we now need to check all of those excitation channels to see whether there were any injections that would have otherwise been undetected. We should also make sure that we only look at observing mode data, i.e. times when the observatory is both ready for observations (\texttt{H1:ODC-MASTER\_CHANNEL\_READY}) and the operator has indicated that we intend to start observing (\texttt{H1:ODC-MASTER\_CHANNEL\_INTENT}). These combine to tell us whether we are in observing mode (\texttt{H1:ODC-MASTER\_CHANNEL\_LATCH}). When in observing mode, any non-zero values in the injection channels we find should be viewed as injections and reported.
+
+Channels start with \texttt{H1:CAL-PCALX\_etc} and the rest of each channel name can be found on the MATLAB viewer and the last part is either EX or EXMON. The filters are shown in dark green and in dark brown.
+
 \section{Acknowledgments}
 
-\TODO{Thank people. At LHO we usually work with Dave Barker, Richard McCarthy, John Zweizig, and Daniel Sigg. We've also worked with Jenne Driggers.}
+\TODO{Thank people. At LHO we usually work with Dave Barker, Richard McCarthy, John Zweizig, and Daniel Sigg. We've also worked with Jenne Driggers. This time, we also worked with Sheila Dwyer.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX
@@ -199,6 +238,8 @@ Check local MEDM viewers (i.e. the MEDM viewers installed on the workstations on
 #!/usr/bin/env python
 # (c) Stefan Countryman, 2018
 # an ugly plotting script for the cesium clock
+import matplotlib
+matplotlib.use('agg')
 import sys
 import os
 sys.path.append(os.path.expanduser("~/dev/geco_data"))
@@ -457,6 +498,27 @@ Tue Jul 31 00:00:07 2018
 	\end{center}
 	\caption{Rainer Corley performing a Time Domain Reflectometry (TDR) cable length measurement on the cable running from the Symmetricom auxiliary GPS clock to the Timing Comparator (Aug. 2018).}
 	\label{fig:rainertdr}
+\end{figure}
+\begin{figure}[!htb]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer.jpg}
+	\end{center}
+	\caption{Device for performing \href{https://en.wikipedia.org/wiki/Time-domain_reflectometer}{Time Domain Reflectrometry} at LHO.}
+	\label{fig:tdr-tool}
+\end{figure}
+\begin{figure}[!htb]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer-dtf-instructions.jpg}
+	\end{center}
+	\caption{Instruction sheet for performing a DTF (Distance to Fault) distance measurement using this Time Domain Reflectrometer at LHO.}
+	\label{fig:tdr-dtf-instructions}
+\end{figure}
+\begin{figure}[!htb]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{time-domain-reflectrometer-dtf-test.jpg}
+	\end{center}
+	\caption{Proof of concept setup for measurement of a cable length terminated in a cable terminated by a GPS antenna.}
+	\label{fig:tdr-test}
 \end{figure}
 \begin{figure}
 	\begin{center}
