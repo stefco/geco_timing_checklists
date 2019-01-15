@@ -262,7 +262,7 @@ def make_plot(x_axis, y_axis, location):
     #converts y_axis time to microseconds from seconds
     MICROS_PER_SECOND = 1e6
     # find outliers
-    outlierinds = np.nonzero(np.logical_or(y_axis > 1, y_axis < -1))
+    outlierinds = np.nonzero(np.logical_or(y_axis > -1e6, y_axis <= -1e-3))
     outliertimes = x_axis[outlierinds]
     outliers = y_axis[outlierinds]
     print("Severe outliers found and removed (time: value):")
