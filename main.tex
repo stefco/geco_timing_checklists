@@ -1,14 +1,5 @@
 \documentclass{article}
-\newcommand{\columbiaPhysDept}{Department of Physics, Columbia University, New York, NY 10027}
-\author{S.T. Countryman,
-    % \email{stefan.countryman@ligo.org}
-    % \homepage{http://geco.markalab.org}
-    % \address{\columbiaPhysDept}
-Y.S. Asali,
-E. Calamari,
-A. Lam,
-M.C. McGrae-Menge
-}
+\author{S.T. Countryman, Y.S. Asali, E. Calamari, A. Lam, M.C. McGrae-Menge}
 \usepackage[utf8]{inputenc}
 \usepackage[colorlinks, urlcolor=cyan]{hyperref}
 % display code; from: https://stackoverflow.com/questions/3175105/writing-code-in-latex-document
@@ -47,7 +38,6 @@ M.C. McGrae-Menge
 \maketitle
 
 \begin{abstract}
-% \emph{This document contains a generic timing system to-do list for a visit to one of the LIGO sites. You should make a copy of this tex file and add any extra items for a specific trip along with a descriptive abstract. As you work on things, you should take notes in this tex file and expand it out so that it eventually becomes a report. If you're working on things besides timing, give them their own sections. Put supporting documents in the appendix. You can mark items that need to be done with a \texttt{\\TODO} command in the \texttt{tex} file; items marked this way are \TODO{marked in a light rust color}.}
     Members of Columbia University's LSC group (GECo) visited the LIGO Hanford Observatory (LHO) between January 3 and January 18, 2019, to ensure that LHO's Timing System was ready for aLIGO's third observing run (O3). Timing System tasks are described and the work done summarized in Section~\ref{sec:timing}. In addition to this project, GECo members sought out other on-site tasks (not necessarily timing related) that would help with O3 preparations. The GECo team consisted of undergraduate student researchers Yasmeen Siham Asali, Emily Calamari, Ana Lam, and Madox Carver McGrae-Menge as well as graduate student researcher Stefan Countryman.
 \end{abstract}
 
@@ -184,6 +174,8 @@ See Sec.~\ref{subsec:medmviewers} for information on checking the MEDM screens. 
 
 \textbf{Update 1/17:} Fixed the MEDM summary screens. See my email to Dave (Appendix~\ref{sec:medm-email}) and \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46500}{an aLOG} I wrote.
 
+\textbf{Update 1/17:} The 1PPS labels on the timing overview page has been updated, Dave Barker helped Yasmeen commit the changes that Stefan wrote. 
+
 \subsection{\label{sec:fix-local-medm-readonly}Fix the \texttt{READONLY}-mode MEDM Screen for the Timing Master}
 
 Currently, in \texttt{READONLY} mode at the site, the list of devices connected to the Master does not show up (Fig.~\ref{fig:medm-readonly}; it's possible to pick between "READONLY" and "MASTER" at the top level sitemap, Fig.~\ref{fig:medm-expert-vs-readonly}). It \textit{does} show up when using the \texttt{EXPERT} mode (Fig.~\ref{fig:medm-expert}). When accessing the screens using remote MEDM viewer, either of those buttons work. The \texttt{READONLY} screen is otherwise the same. 
@@ -194,13 +186,18 @@ Currently, in \texttt{READONLY} mode at the site, the list of devices connected 
 
 After a conversation about the current state of the detector, Sheila Dwyer asked Yasmeen, Ana, Madox, and Emily to look into the DRMI (Dual-Recycling Michelson Interferometer) locking acquisition system. The DRMI is the LIGO instrument without the 4km arms. Many changes to the DRMI locking process have been made recently, yet the success of said alterations had not been objectively delved into. Specifically, within the \texttt{"H1:GRD-ISC\_LOCK\_STATE\_N"} channel we examined both the time durations during the "Lock DRMI 1F" state (denoted by 101) and the success rate of DRMI locks. Trends in the DRMI locking system duration and success rate were cross checked with the aLIGO LHO Logbook. Furthermore, Sheila asked if we could put a summarizing plot on the detchar pages (like \href{https://ldas-jobs.ligo.caltech.edu/~detchar/summary/day/20190111/psl/}{this one}). Generating DetChar summary pages requires creating special \texttt{.ini} configuration files specifying the channels and plot types to be made as well as the location of those plots in the overall summary page structure.
 
+We created scripts for downloading large chunks of data and plotting durations of DRMI locking attempts as requested from Sheila. We generated a plot from August 1 2018 to January 8 2019 which shows the average duration for a locking attempt that were successful and locking attempts that were failures for each hour. With Sheila, we referenced the aLogs for dates that qualitatively appeared to indicate changes in the DRMI locking system's performance within the plot. Sheila would like to have the scripts and instructions on how to use them so that she can use them in the future to assess the DRMI locking system's performance over time spans of a day or time spans of many months.
+
 To Do Items:
 
 \begin{itemize}
     \item \TODO{We will probably need to define a new plot type in the GWpy codebase for this application (since the \texttt{.ini} files must reference an existing GWpy plot type).}
     \item \TODO{We will also need to get Alex Urban or someone to make it possible to have plots with weeks or months of data (vs. the current timespan of a day) since this is the span on which useful conclusions about locking behavior can be gleaned. Sheila already sent an email to Alex on this topic (Appendix~\ref{sec:summary-page-email}).}
+    \item Create a Github repository for Sheila with instruction to use the downloading and plotting scripts.
 \end{itemize}
 \href{https://dcc.ligo.org/LIGO-G1301236}{This slideshow} describes DRMI locking.
+
+\textbf{Update:} We have created a public  \href{https://github.com/ysa2106/LHO_2019}{\texttt{LHO 2019} git repository} with instructions and scripts to run the DRMI locking acquisition analysis. We published an \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46536}{aLOG 46536} detailing our analysis and a significant observation we made that the 30W TCS settings improved locking acquisition.
 
 \TODO{\subsection{Checking for Side-Channel Injections in PCALX Frontend}
 }
@@ -742,6 +739,18 @@ LHO X Frontend:
     H1:CAL-PINJX_HARDWARE_EXC
 For Y Frontend, PCALX becomes PCALY. For LLO, H1 becomes L1.
 For the excitation points in timing system, use nds_query to find old channel names for FPGA, DAC and IRIGB channels. 
+\end{lstlisting}
+\clearpage
+
+\section{aLOG for DRMI Project}
+\lstset{language=HTML}
+\begin{lstlisting}
+<p>Ana Lam, Madox McGrae-Menge, Yasmeen Asali, Emily Calamari</p>
+
+<p>We worked on analyzing DRMI lock acquisition the past couple weeks with Sheila. We downloaded HI:GRD-ISC_LOCK_STATE_N data from August 2018 through January 2019 and examined the transition from Acquire DRMI 1f (101) to DRMI Locked Prep ASC (102) specifically calculating the duration and outcome of DRMI locking attempts. The scripts we developed can be found <a href="https://github.com/ysa2106/LHO_2019">here</a>.</p>
+
+<p>The attached plot shows the past five months of DRMI locking attempt durations averaged by hour and colored by outcome, where &quot;Success&quot; indicates a successful transition from state 101 to 102 and &quot;Failure&quot; denotes any time the system reverted to a lower state. The vertical line marks December 18th when the TCS settings were reverted back to 30W, and we observed a statistically significant difference between the distribution duration means between the two time intervals (see github scripts for U-Test details).</p>
+
 \end{lstlisting}
 \clearpage
 
