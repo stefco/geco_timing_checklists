@@ -1,0 +1,17 @@
+# Change the following so that the port numbers are correct and reflect both
+# the removal of the UTCG/TCTs as well as the rearrangement of ports at the
+# corner station.
+
+TIMING_MEDMS=/opt/rtcds/userapps/release/sys/common/medm/
+
+# Corner station (rearrange ports, rename UTCG to Atomic Clock):
+"${TIMING_MEDMS}"/SYS_CUST_TIMING_MSR_CFC_macro.txt
+
+# Corner station FanOut B (all 1PPS are unused AFAIK)
+"${TIMING_MEDMS}"/SYS_CUST_TIMING_CER_CFC_macro.txt
+
+# X-End, TCT removed, CNS II in port 4
+"${TIMING_MEDMS}"/SYS_CUST_TIMING_XEND_CFC_macro.txt
+
+# Y-End, TCT removed, CNS II in port 4
+"${TIMING_MEDMS}"/SYS_CUST_TIMING_YEND_CFC_macro.txt

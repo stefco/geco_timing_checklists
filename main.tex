@@ -1,5 +1,14 @@
 \documentclass{article}
-\author{Stefan Countryman}
+\newcommand{\columbiaPhysDept}{Department of Physics, Columbia University, New York, NY 10027}
+\author{S.T. Countryman,
+    % \email{stefan.countryman@ligo.org}
+    % \homepage{http://geco.markalab.org}
+    % \address{\columbiaPhysDept}
+Y.S. Asali,
+E. Calamari,
+A. Lam,
+M.C. McGrae-Menge
+}
 \usepackage[utf8]{inputenc}
 \usepackage[colorlinks, urlcolor=cyan]{hyperref}
 % display code; from: https://stackoverflow.com/questions/3175105/writing-code-in-latex-document
@@ -29,7 +38,7 @@
   tabsize=3
 }
 
-\title{LIGO Site Visit Checklist}
+\title{LHO January 2019 Site Visit Report}
 
 \definecolor{todo}{RGB}{170, 86, 73}        % light rust
 \newcommand*{\TODO}{\textcolor{todo}}
@@ -38,14 +47,14 @@
 \maketitle
 
 \begin{abstract}
-\emph{This document contains a generic timing system to-do list for a visit to one of the LIGO sites. You should make a copy of this tex file and add any extra items for a specific trip along with a descriptive abstract. As you work on things, you should take notes in this tex file and expand it out so that it eventually becomes a report. If you're working on things besides timing, give them their own sections. Put supporting documents in the appendix. You can mark items that need to be done with a \texttt{\\TODO} command in the \texttt{tex} file; items marked this way are \TODO{marked in a light rust color}.}
+% \emph{This document contains a generic timing system to-do list for a visit to one of the LIGO sites. You should make a copy of this tex file and add any extra items for a specific trip along with a descriptive abstract. As you work on things, you should take notes in this tex file and expand it out so that it eventually becomes a report. If you're working on things besides timing, give them their own sections. Put supporting documents in the appendix. You can mark items that need to be done with a \texttt{\\TODO} command in the \texttt{tex} file; items marked this way are \TODO{marked in a light rust color}.}
+    Members of Columbia University's LSC group (GECo) visited the LIGO Hanford Observatory (LHO) between January 3 and January 18, 2019, to ensure that LHO's Timing System was ready for aLIGO's third observing run (O3). Timing System tasks are described and the work done summarized in Section~\ref{sec:timing}. In addition to this project, GECo members sought out other on-site tasks (not necessarily timing related) that would help with O3 preparations. The GECo team consisted of undergraduate student researchers Yasmeen Siham Asali, Emily Calamari, Ana Lam, and Madox Carver McGrae-Menge as well as graduate student researcher Stefan Countryman.
 \end{abstract}
 
-\section{Timing}
+\section{\label{sec:timing}Timing}
 
-\TODO{
 \subsection{\label{sec:cable-lengths}Finish measuring cable lengths/types}
-}
+
 Might need to do 
 \href{https://en.wikipedia.org/wiki/Time-domain_reflectometer}{TDR})
 to get remaining cable lengths.
@@ -92,6 +101,8 @@ For the distance measurement, we will be using Distance to Fault (DTF) mode, whi
 \end{itemize}
 
 \textbf{Update 1/15:} We finished measuring the cables that are connected to the CNS II clocks, however, we found that they seem to be patch cables to VEA (based on a bump in TDR found at 90 ft. as well as the cable names). We suspect that the cable in VEA continues up to the rooftop GPS antenna. \TODO{We will need to check the cable type (probably LMR-400) in VEA and measure its length}. We can also measure the 1PPS cable length for the CNS II clock while we are in VEA. We wrote \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46442}{aLOG 46442} describing our activity (Appendix~\ref{sec:cns-ii-removal-alog}).
+
+\textbf{Update 1/17:} We went to EX VEA to find the GPS antenna cable from VEA to roof. We couldn't find it, but we do have the absolute timing delay between roof and CNS II clock of ~270', calculated from a TDR measurement of ~215' with a velocity factor of 0.8 for LMR-195 (see above). We wrote \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46499}{an aLOG} describing our activity.
 
 \begin{center}
   \label{table:lho-cables}
@@ -161,26 +172,21 @@ FPGA Firmware versions are on \href{https://awiki.ligo-wa.caltech.edu/wiki/Timin
 
 \textbf{Update 1/15:} The firmware versions of all the elements of the timing system are up to date. Version information is listed in appendix \ref{sec:firmware}.
 
-\TODO{
 \subsection{\label{subsec:medmviewers} Make sure Local- and Remote-MEDM Viewers Match}
-}
+
 Check local MEDM viewers (i.e. the MEDM viewers installed on the workstations on site) and make sure the timing screens etc. match what we see with \href{https://wiki.ligo.org/RemoteAccess/RemoteEPICS}{RemoteMEDM} (you should check this on your own laptop).
 
 \textit{When we went in August 2018, the MEDM Summary screens at the bottom of the page were out of date. Specifically, the end station ones were wrong in their 1PPS descriptions and the corner stations \textbf{might} have been wrong; would have to check that against the installation in MSR. The Remote and Local MEDM screens otherwise matched.}
 
-\TODO{
 \subsection{Check which MEDM screen MSR 1PPS descriptions were correct}
-}
+
 See Sec.~\ref{subsec:medmviewers} for information on checking the MEDM screens. We went in to MSR at 1:30pm local on 1/16 (\href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46477}{aLOG here}) and checked on the physical connections between diagnostic timing devices and the Timing Comparator module. We recorded which input ports are connected to which diagnostic devices in the table in Sec.~\ref{sec:cable-lengths}.
 
-\TODO{We still need to look at both the local and Remote MEDM 1PPS summary pages to confirm that the channel name descriptions are still accurate for both.} 
+\textbf{Update 1/17:} Fixed the MEDM summary screens. See my email to Dave (Appendix~\ref{sec:medm-email}) and \href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46500}{an aLOG} I wrote.
 
-\TODO{
 \subsection{\label{sec:fix-local-medm-readonly}Fix the \texttt{READONLY}-mode MEDM Screen for the Timing Master}
-}
 
-Currently, in \texttt{READONLY} mode at the site, the list of devices connected to the Master does not show up. It \textit{does} show up when using the \texttt{EXPERT} mode. When accessing the screens using remote MEDM viewer, either of those buttons work. The \texttt{READONLY} screen is otherwise the same. 
-\TODO{Add figures.}
+Currently, in \texttt{READONLY} mode at the site, the list of devices connected to the Master does not show up (Fig.~\ref{fig:medm-readonly}; it's possible to pick between "READONLY" and "MASTER" at the top level sitemap, Fig.~\ref{fig:medm-expert-vs-readonly}). It \textit{does} show up when using the \texttt{EXPERT} mode (Fig.~\ref{fig:medm-expert}). When accessing the screens using remote MEDM viewer, either of those buttons work. The \texttt{READONLY} screen is otherwise the same. 
 
 \section{Side Projects}
 
@@ -215,13 +221,40 @@ Jamie wrote a replacement for DataViewer called \href{https://git.ligo.org/cds/n
 \TODO{Screenshots of the models and channels we are interested in for this project will go in the appendix.}
 
 \begin{itemize}
-    \item \TODO{Get \texttt{ndscope} running on MacOS}
-    \item \TODO{Write a Portfile for \texttt{ndscope} so that everyone can install it}
+    \item Get \texttt{ndscope} running on MacOS (also required getting \texttt{gpstime})
+    \item \TODO{Write a Portfile so that everyone can install it}
+        \begin{itemize}
+            \item \TODO{For \texttt{ndscope}}
+            \item \TODO{For \texttt{gpstime}}
+        \end{itemize}
+    \item \TODO{Test the portfile}
+        \begin{itemize}
+            \item \TODO{For \texttt{ndscope}}
+            \item \TODO{For \texttt{gpstime}}
+        \end{itemize}
+    \item \TODO{Upload the portfile to MacPorts base}
+        \begin{itemize}
+            \item \TODO{For \texttt{ndscope}}
+            \item \TODO{For \texttt{gpstime}}
+        \end{itemize}
+    \item \TODO{Let Jamie, Jon Hanks, etc. know that this is now available for MacOS.}
 \end{itemize}
 
 \subsection{\label{sec:marc-pirello}Marc Pirello's Timing System Experiments}
 
-\TODO{Describe Marc's timing experiments here.}
+Marc Pirello, an EE at LHO, is currently working on experiments to get the timing system FPGA code running on a Spartan 6 test board. One of his goals is to use the PCIe interface in the Spartan 6 to provide the timing system's internal GPS timestamp (along with other possible data). This would facilitate a new Timing Slave design for the IO Chassis in which the Timing Slave could be inserted into a PCIe 1x slot to provide GPS time (and other digital data) directly to the IO Chassis.
+
+Since the Timing Slave is used solely for analog signals (a clock signal to drive LIGO's ADCs as well as a DuoTone signal for diagnostic purposes), it is unclear what the advantage of a PCIe interface exposing internal digital signals would be (particularly since these signals are already routed through fiber optic cables back to the Timing Master, whence they are sent to EPICS via a serial port connection to a Beckhoff module). Marc said he'd been talking with Richard McCarthy and Daniel Sigg about this design and that he didn't know what the exact end goal of this new design/functionality would be. It would certainly be useful, however, to have the FPGA code working for newer versions of the Spartan FPGA platform, since this will enable existing timing code to be incorporated into newer hardware in a revised/upgraded timing system design.
+
+It should be noted, however, that a redesign of the timing chassis, particularly one that would involve adding new wiring and extra digital signals and interfaces into the heart of the DAQ, will require a lot of care and review. It sounded like this design was intended to be hot-swappend into the current-get aLIGO timing system. If this is the case, we need to understand:
+
+\begin{enumerate}
+    \item What the intended use of the new timing system designs is
+    \item The exact nature of the new design
+    \item Whether the new timing system designs/components will be used in the current gen system
+\end{enumerate}
+
+\TODO{We must follow up with Marc Pirello, Richard McCarthy, and Daniel Sigg to understand these new plans for the timing system.}
 
 \subsection{Add a more abstract timing system diagram to the Timing System Map}
 
@@ -576,6 +609,50 @@ Stef
 \end{lstlisting}
 
 \clearpage
+\section{MEDM Screen Issues Email}
+\label{sec:medm-email}
+\lstset{language=}
+\begin{lstlisting}
+From: Stefan Trklja Countryman <stc2117@columbia.edu>
+Subject: Found 2 timing system MEDM problems, fixed one of them (need SVN commit)
+Date: January 17, 2019 at 9:34:34 AM PST
+To: barker@ligo-wa.caltech.edu, Zsuzsa Marka <zsuzsa@astro.columbia.edu>
+Cc: Yasmeen Siham Asali <ysa2106@columbia.edu>, Ana Lam <al3574@barnard.edu>, Madox Carver McGrae-Menge <mcm2280@columbia.edu>
+
+Dear Dave,
+
+Thanks again for your help on this visit! The undergrads really appreciated it (as did I).
+
+We found two problems with the Timing System MEDM screens:
+
+1. Yasmeen noticed that the Timing Master in READONLY mode will not display any of the fiber ports at the bottom. In EXPERT mode, the ports do display. Strangely, this is not a problem on the RemoteMEDM viewer. This should probably be fixed, though it is not a high priority obviously. Screenshots of one of the differences attached as well as a picture of the READONLY/EXPERT option button.
+2. I noticed that the 1PPS summary pages still had the wrong labels. I fixed this in the MEDM macros but could not SVN commit due to permissions. If you could commit this, I'd appreciate it! (Attempted) commit message below:
+
+Update 1PPS Second Labels in MEDM summary screens
+
+The 1PPS Summary screens, accessible at the bottom of the Timing overview
+MEDM screen (SYS_CUST_TIMING.adl), had incorrect descriptions for the
+1PPS timing diagnostic signals. The following screens under the summary
+button have been fixed:
+
+MSR Comparator/Frequency Counter
+CER Comparator/Frequency Counter
+EX Comparator/Frequency Counter
+EY Comparator/Frequency Counter
+--This line, and those below, will be ignored--
+
+M    SYS_CUST_TIMING_MSR_CFC_macro.txt
+M    SYS_CUST_TIMING_CER_CFC_macro.txt
+M    SYS_CUST_TIMING_XEND_CFC_macro.txt
+M    SYS_CUST_TIMING_YEND_CFC_macro.txt
+
+Best,
+Stef
+
+P.S. I also put this in an alog: <https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46500>
+\end{lstlisting}
+
+\clearpage
 \section{\href{https://alog.ligo-wa.caltech.edu/aLOG/index.php?callRep=46442}{aLOG 46442 for CNS II Removal and TDR Antenna Length Measurement}}
 \label{sec:cns-ii-removal-alog}
 \lstset{language=}
@@ -736,6 +813,21 @@ For the excitation points in timing system, use nds_query to find old channel na
   \includegraphics[width=\linewidth]{img/cesium-clock.png}
   \caption{Cesium 1PPS clock time difference vs. Timing System over last few months.}
   \label{fig:cesium}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\linewidth]{img/2019-01-16_lho-timing-overview-medm.png}
+  \caption{Screenshot of the MEDM screens on-site showing the READONLY vs. EXPERT modes.}
+  \label{fig:medm-expert-vs-readonly}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\linewidth]{img/2019-01-16_lho-timing-master-readonly.png}
+  \caption{Screenshot of the READONLY master MEDM screen (with the missing port information at the bottom).}
+  \label{fig:medm-readonly}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\linewidth]{img/2019-01-16_lho-timing-master-expert.png}
+  \caption{Screenshot of the EXPERT master MEDM screen (showing nominal behavior, i.e. port information at the bottom).}
+  \label{fig:medm-expert}
 \end{figure}
 \clearpage
 

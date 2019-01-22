@@ -1,0 +1,17 @@
+Update 1PPS Second Labels in MEDM summary screens
+
+The 1PPS Summary screens, accessible at the bottom of the Timing overview
+MEDM screen (SYS_CUST_TIMING.adl), had incorrect descriptions for the
+1PPS timing diagnostic signals. The following screens under the summary
+button have been fixed:
+
+MSR Comparator/Frequency Counter
+CER Comparator/Frequency Counter 
+EX Comparator/Frequency Counter 
+EY Comparator/Frequency Counter 
+--This line, and those below, will be ignored--
+
+M    SYS_CUST_TIMING_MSR_CFC_macro.txt
+M    SYS_CUST_TIMING_CER_CFC_macro.txt
+M    SYS_CUST_TIMING_XEND_CFC_macro.txt
+M    SYS_CUST_TIMING_YEND_CFC_macro.txt
